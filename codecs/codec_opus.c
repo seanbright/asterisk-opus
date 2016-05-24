@@ -557,8 +557,20 @@ static int reload(void)
 	return AST_MODULE_LOAD_SUCCESS;
 }
 
+/* Helpers for the monkeypatch */
+static struct ast_codec *opus_codec;
+static int (*old_opus_samples)(struct ast_frame *frame);
+static int opus_samples(struct ast_frame *frame)
+{
+	return opus_packet_get_nb_samples(frame->data.ptr, frame->datalen, 48000);
+}
+
 static int unload_module(void)
 {
+	/* Un-monkeypatch */
+	opus_codec->samples_count = old_opus_samples;
+	ao2_ref(opus_codec, -1);
+
 	int res;
 
 	res = ast_unregister_translator(&opustolin);
@@ -579,6 +591,11 @@ static int unload_module(void)
 
 static int load_module(void)
 {
+	/* Monkeypatch */
+	opus_codec = ast_codec_get("opus", AST_MEDIA_TYPE_AUDIO, 48000);
+	old_opus_samples = opus_codec->samples_count;
+	opus_codec->samples_count = opus_samples;
+
 	int res;
 
 	res = ast_register_translator(&opustolin);
