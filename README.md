@@ -5,13 +5,13 @@
 * [Asterisk 11](https://github.com/seanbright/asterisk-opus/tree/asterisk-11)
 * [Asterisk 12](https://github.com/seanbright/asterisk-opus/tree/asterisk-12)
 
-Since Opus and VP8 cannot, as of now, be integrated into the main Asterisk repositories (learn why [in this thread](http://lists.digium.com/pipermail/asterisk-dev/2013-May/060356.html)), we prepared a module that adds support for both codecs (Opus transcoding, VP8 passthrough) to [Asterisk 13](https://github.com/asterisk/asterisk):
+Since Opus and VP8 cannot, as of now, be integrated into the main Asterisk repositories (learn why [in this thread](http://lists.digium.com/pipermail/asterisk-dev/2013-May/060356.html)), we prepared a pair of modules that add support for both codecs (Opus transcoding, VP8 passthrough) to [Asterisk 13](https://github.com/asterisk/asterisk):
 
 **Note:** There is no longer any need to patch the core Asterisk 13 files!
 
-Because this module does not patch any core Asterisk files, it can be compiled either inside the full Asterisk source tree, or it can be compiled against just the Asterisk headers (available in the "asterisk-devel" package on most distros).
+Because these modules do not patch any core Asterisk files, they can be compiled either inside the full Asterisk source tree, or using just the Asterisk headers (available in the "asterisk-devel" package on most distros).
 
-## Building inside Asterisk
+## Building inside the Asterisk source tree
 To support Opus, you'll need to install [libopus](http://www.opus-codec.org/downloads/) first. No library is needed for VP8, as its support is passthrough only.
 
     cd asterisk-13-git
@@ -35,12 +35,12 @@ Compile and install.
 	make
 	make install
 
-## Building outside Asterisk
+## Building with just the Asterisk headers
 First, make sure you have the Asterisk headers (often available as "asterisk-devel") as well as libopus.  Then use the following commands to build the Opus and VP8 modules:
 
 	cd /path/to/asterisk-opus
 	make
-	make install
+	make install ASTMODDIR=/usr/local/lib/asterisk/modules
 
 ## Testing
 You can test Opus using the free softphone [PhonerLite](http://phonerlite.de/download_en.htm). Make sure you choose the beta version, as the stable one does not comply with [draft-ietf-payload-rtp-opus](http://tools.ietf.org/html/draft-ietf-payload-rtp-opus-00) (RTP timestamp increment).
