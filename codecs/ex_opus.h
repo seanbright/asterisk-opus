@@ -22,7 +22,7 @@ static struct ast_frame *opus_sample(void)
 	static struct ast_frame f = {
 		.frametype = AST_FRAME_VOICE,
 		.datalen = sizeof(ex_opus),
-		.samples = 960,	// ARRAY_LEN(ex_opus),
+		.samples = OPUS_SAMPLES,
 		.mallocd = 0,
 		.offset = 0,
 		.src = __PRETTY_FUNCTION__,
