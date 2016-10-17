@@ -32,7 +32,7 @@
 
 /*** MODULEINFO
 	 <depend>opus</depend>
-	 <support_level>core</support_level>
+	 <conflict>codec_opus</conflict>
 ***/
 
 #include "asterisk.h"
